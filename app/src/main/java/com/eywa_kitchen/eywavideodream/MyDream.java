@@ -17,6 +17,9 @@ import android.os.ResultReceiver;
 import android.service.dreams.DreamService;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import java.io.BufferedInputStream;
@@ -30,14 +33,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static android.content.ContentValues.TAG;
 
 public class MyDream extends DreamService {
     public final String TAG = "MyLogger";
     VideoView mVideoView;
+    WebView webView;
     DownloadManager downloadManager;
     String videourl = "file:///sdcard/Download/Demo.mov";
+
+
+
 
 
     @Override
@@ -50,24 +58,42 @@ public class MyDream extends DreamService {
         setScreenBright(true);
         // show the view on the screen
         setContentView(R.layout.dream_service);
+        webView = (WebView) findViewById(R.id.webView);
 
-        mVideoView = (VideoView) findViewById(R.id.videoView);
-        mVideoView.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/eywakitchen.appspot.com/o/Demo.mov?alt=media&token=408eacfe-b95b-4224-b52c-125834580cb5"));
-
-
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
+        //mVideoView = (VideoView) findViewById(R.id.videoView);
 
 
-                    mp.start();
-                    mp.setLooping(true);
+
+        //mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+          //  @Override
+          //  public void onPrepared(MediaPlayer mp) {
 
 
-            }
-        });
+           //         mp.start();
+           //         mp.setLooping(true);
+
+
+     //       }
+     ///   });
+
+
 
     }
+
+    @Override
+    public void onDreamingStarted(){
+        super.onDreamingStarted();
+
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        //mVideoView.setVideoURI(Uri.parse("https://firebasestorage.googleapis.com/v0/b/eywakitchen.appspot.com/o/Demo.mov?alt=media&token=408eacfe-b95b-4224-b52c-125834580cb5"));
+        // mVideoView.setVideoURI(Uri.parse( Environment.getExternalStorageDirectory().getAbsolutePath()+"Demo.mov"));
+        webView.("https://firebasestorage.googleapis.com/v0/b/eywakitchen.appspot.com/o/Demo.mov?alt=media&token=408eacfe-b95b-4224-b52c-125834580cb5");
+
+    }
+
+
+
 
 
 
